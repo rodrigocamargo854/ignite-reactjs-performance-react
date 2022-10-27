@@ -5,7 +5,6 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [results, setresults] = useState([]);
 
-  
   async function handleSearch(event: FormEvent) {
     event.preventDefault();
 
@@ -17,6 +16,10 @@ export default function Home() {
 
     setresults(data);
   }
+
+  const addToWishList = useCallback(async (id: number) => {
+    console.log(id);
+  }, []);
 
   return (
     <div>
@@ -32,7 +35,7 @@ export default function Home() {
         ></input>
         <button type="submit">buscar</button>
       </form>
-      <SearchResults results={results} />
+      <SearchResults onAddToWishList={addToWishList} results={results} />
     </div>
   );
 }
