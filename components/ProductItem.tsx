@@ -4,14 +4,17 @@ import dynamic from "next/dynamic";
 //or we can use lazy to in any react aplication
 // import { AddProductToWishList } from "./AddProductToWishList";
 
-const AddProductToWishList = dynamic<AddProductToWishListProps>(() => {
-  return (
-    import("./AddProductToWishList").then((mod) => mod.AddProductToWishList),
-    {
-      loading: () => <span>...carregando</span>
-    }
-  );
-});
+const AddProductToWishlist = dynamic<AddProductToWishListProps>(
+  () => {
+    // return import('./AddProductToWishlist') Quando é export default
+    return import("./AddProductToWishList").then(
+      (mod) => mod.AddProductToWishList
+    ); //Quando não é export default
+  },
+  {
+    loading: () => <span>Carregando...</span>,
+  }
+);
 
 interface ProductItemProps {
   product: {
@@ -33,7 +36,7 @@ function ProductItemComponent({ product, onAddToWishList }: ProductItemProps) {
         Adicionar aos favoritos
       </button>
       {isAddingWishList && (
-        <AddProductToWishList
+        <AddProductToWishlist
           onAddToWishList={() => onAddToWishList(product.id)}
           //setting initial state isAddingWishlist to false and the Component disappear
           onRequestClose={() => setIsAddingWishList(false)}
